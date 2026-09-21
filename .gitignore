@@ -1,0 +1,16 @@
+node_modules/
+.expo/
+dist/
+coverage/
+*.log
+.DS_Store
+android/
+ios/
+.idea/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
