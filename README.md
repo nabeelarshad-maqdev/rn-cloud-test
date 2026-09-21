@@ -9,8 +9,8 @@ React Native (TypeScript) app with a Login screen, client-side validation, mocke
 
 ## Stack
 
-- React Native + TypeScript
-- Jest + `@testing-library/react-native`
+- React Native 0.87 + React 19 + TypeScript
+- Jest + `@testing-library/react-native` v14
 - Mocked `login` API (no network)
 
 Frontend only — no Detox, Playwright, or emulator required for tests.

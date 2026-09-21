@@ -12,8 +12,8 @@ describe('LoginScreen', () => {
     jest.clearAllMocks();
   });
 
-  it('renders email, password, and sign-in controls', () => {
-    render(<LoginScreen />);
+  it('renders email, password, and sign-in controls', async () => {
+    await render(<LoginScreen />);
 
     expect(screen.getByTestId('login-screen')).toBeTruthy();
     expect(screen.getByLabelText('Email')).toBeTruthy();
@@ -21,10 +21,10 @@ describe('LoginScreen', () => {
     expect(screen.getByRole('button', {name: 'Sign in'})).toBeTruthy();
   });
 
-  it('shows validation errors when submitting empty fields', () => {
-    render(<LoginScreen />);
+  it('shows validation errors when submitting empty fields', async () => {
+    await render(<LoginScreen />);
 
-    fireEvent.press(screen.getByRole('button', {name: 'Sign in'}));
+    await fireEvent.press(screen.getByRole('button', {name: 'Sign in'}));
 
     expect(screen.getByTestId('email-error')).toHaveTextContent(
       'Email is required',
@@ -35,12 +35,12 @@ describe('LoginScreen', () => {
     expect(mockLogin).not.toHaveBeenCalled();
   });
 
-  it('shows validation errors for invalid email and short password', () => {
-    render(<LoginScreen />);
+  it('shows validation errors for invalid email and short password', async () => {
+    await render(<LoginScreen />);
 
-    fireEvent.changeText(screen.getByTestId('email-input'), 'bad-email');
-    fireEvent.changeText(screen.getByTestId('password-input'), 'short');
-    fireEvent.press(screen.getByRole('button', {name: 'Sign in'}));
+    await fireEvent.changeText(screen.getByTestId('email-input'), 'bad-email');
+    await fireEvent.changeText(screen.getByTestId('password-input'), 'short');
+    await fireEvent.press(screen.getByRole('button', {name: 'Sign in'}));
 
     expect(screen.getByTestId('email-error')).toHaveTextContent(
       'Enter a valid email address',
@@ -58,14 +58,17 @@ describe('LoginScreen', () => {
     });
     const onLoginSuccess = jest.fn();
 
-    render(<LoginScreen onLoginSuccess={onLoginSuccess} />);
+    await render(<LoginScreen onLoginSuccess={onLoginSuccess} />);
 
-    fireEvent.changeText(
+    await fireEvent.changeText(
       screen.getByTestId('email-input'),
       'user@example.com',
     );
-    fireEvent.changeText(screen.getByTestId('password-input'), 'password123');
-    fireEvent.press(screen.getByRole('button', {name: 'Sign in'}));
+    await fireEvent.changeText(
+      screen.getByTestId('password-input'),
+      'password123',
+    );
+    await fireEvent.press(screen.getByRole('button', {name: 'Sign in'}));
 
     await waitFor(() => {
       expect(mockLogin).toHaveBeenCalledWith({
@@ -83,14 +86,17 @@ describe('LoginScreen', () => {
   it('shows an API error when login fails', async () => {
     mockLogin.mockRejectedValue(new Error('Invalid email or password'));
 
-    render(<LoginScreen />);
+    await render(<LoginScreen />);
 
-    fireEvent.changeText(
+    await fireEvent.changeText(
       screen.getByTestId('email-input'),
       'fail@example.com',
     );
-    fireEvent.changeText(screen.getByTestId('password-input'), 'password123');
-    fireEvent.press(screen.getByRole('button', {name: 'Sign in'}));
+    await fireEvent.changeText(
+      screen.getByTestId('password-input'),
+      'password123',
+    );
+    await fireEvent.press(screen.getByRole('button', {name: 'Sign in'}));
 
     expect(await screen.findByTestId('form-error')).toHaveTextContent(
       'Invalid email or password',
