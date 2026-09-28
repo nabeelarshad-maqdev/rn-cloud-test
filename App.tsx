@@ -5,12 +5,16 @@
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import {NewAppScreen} from '@react-native/new-app-screen';
+import {StatusBar, StyleSheet, useColorScheme, View} from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import PracticeScreen from './src/screens/PracticeScreen';
+
+// Temporary Cloud practice toggle. Set to false to restore NewAppScreen.
+const SHOW_PRACTICE_SCREEN = true;
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -25,6 +29,10 @@ function App() {
 
 function AppContent() {
   const safeAreaInsets = useSafeAreaInsets();
+
+  if (SHOW_PRACTICE_SCREEN) {
+    return <PracticeScreen />;
+  }
 
   return (
     <View style={styles.container}>
